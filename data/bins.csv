@@ -1,0 +1,11 @@
+bin_id,qr_code,area,zone,latitude,longitude,installation_date,capacity_liters,current_fill_percent,last_collected_date,status,assigned_vehicle_id,ward_number
+BIN_NZ_001,QR_NZ_001,Nizampet,West,17.5185,78.3910,2024-01-10,240,45,2026-02-18,Active,VEH_01,134
+BIN_NZ_002,QR_NZ_002,Nizampet,West,17.5202,78.3925,2024-02-05,240,82,2026-02-19,Needs Collection,VEH_02,134
+BIN_NZ_003,QR_NZ_003,Nizampet,West,17.5178,78.3898,2024-03-12,300,67,2026-02-17,Active,VEH_01,135
+BIN_NZ_004,QR_NZ_004,Nizampet,West,17.5190,78.3930,2024-04-20,240,91,2026-02-20,Overflow,VEH_03,135
+BIN_NZ_005,QR_NZ_005,Nizampet,West,17.5210,78.3950,2025-01-15,300,38,2026-02-18,Active,VEH_02,136
+BIN_KP_001,QR_KP_001,Kukatpally,West,17.4948,78.3995,2024-01-18,300,72,2026-02-19,Active,VEH_04,128
+BIN_KP_002,QR_KP_002,Kukatpally,West,17.4965,78.4012,2024-02-25,240,88,2026-02-20,Needs Collection,VEH_05,128
+BIN_KP_003,QR_KP_003,Kukatpally,West,17.4932,78.3978,2024-03-30,300,95,2026-02-20,Overflow,VEH_04,129
+BIN_KP_004,QR_KP_004,Kukatpally,West,17.4950,78.4030,2025-05-12,240,51,2026-02-18,Active,VEH_06,129
+BIN_KP_005,QR_KP_005,Kukatpally,West,17.4975,78.4045,2025-08-20,300,63,2026-02-19,Active,VEH_05,130

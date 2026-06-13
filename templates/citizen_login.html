@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>citizen Login - GHMC</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            height: 100vh;
+        }
+
+        .login-card {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 90px;
+            padding: 30px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .toggle-eye {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-card">
+
+    <h3 class="text-center mb-4">👤 citizen Login</h3>
+
+    <!-- ERROR MESSAGE -->
+    {% if error %}
+        <div class="alert alert-danger text-center">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+
+        <!-- Username -->
+        <div class="mb-3">
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+
+        <!-- Password with Eye Icon -->
+        <div class="mb-3">
+            <label>Password</label>
+            <div class="input-group">
+                <input type="password" id="password" name="password" class="form-control" required>
+                <span class="input-group-text toggle-eye" onclick="togglePassword()">👁</span>
+            </div>
+        </div>
+
+        <!-- Remember Me -->
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" name="remember">
+            <label class="form-check-label">Remember me</label>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" class="btn btn-primary">Login</button>
+
+    </form>
+
+    <div class="signup-link">
+        <p>New user? <a href="/signup">Register here</a></p>
+    </div>
+
+</div>
+
+<!-- JS for password toggle -->
+<script>
+function togglePassword() {
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+</script>
+
+</body>
+</html>

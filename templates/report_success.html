@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success</title>
+
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+            margin-top: 50px;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 30px;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px gray;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>✅ Bin Report Submitted</h2>
+
+    <p><b>Bin ID:</b> {{ bin_id }}</p>
+    <p><b>Status:</b> {{ status }}</p>
+    <p><b>Reported by:</b> {{ username }}</p>
+    <p><b>Time:</b> {{ time }}</p>
+
+    <a href="/citizen_dashboard">⬅ Back to Dashboard</a>
+</div>
+
+</body>
+</html>

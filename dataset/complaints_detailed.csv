@@ -1,0 +1,8 @@
+complaint_id,date,area,issue_type,priority,status,resolution_time_hours
+C001,2025-01-01,Kukatpally,Bin Overflow,High,Resolved,6
+C002,2025-01-01,Kukatpally,Missed Collection,Medium,Resolved,12
+C003,2025-01-02,Kukatpally,Illegal Dumping,High,Pending,0
+C004,2025-01-03,Nizampet,Bin Damage,Low,Resolved,24
+C005,2025-01-04,Nizampet,Missed Collection,Medium,Resolved,10
+C006,2025-01-08,Kukatpally,Bin Overflow,High,Resolved,4
+C007,2025-01-09,Nizampet,Bin Damage,Low,Resolved,20

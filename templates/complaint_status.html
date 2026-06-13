@@ -1,0 +1,23 @@
+<h2>Your Complaints</h2>
+
+<table border="1" width="100%">
+<tr>
+<th>ID</th>
+<th>Area</th>
+<th>Issue</th>
+<th>Priority</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+
+{% for c in complaints %}
+<tr>
+<td>{{ c.complaint_id }}</td>
+<td>{{ c.area }}</td>
+<td>{{ c.issue }}</td>
+<td>{{ c.priority }}</td>
+<td>{{ c.status }}</td>
+<td>{{ c.date }}</td>
+</tr>
+{% endfor %}
+</table>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Complaint Panel</title>
+<style>
+body{font-family:Arial;background:#f4f7fa;padding:30px;}
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+th, td{
+    padding:10px;
+    border:1px solid #ddd;
+}
+th{background:#004e92;color:white;}
+.high{color:red;font-weight:bold;}
+.medium{color:orange;font-weight:bold;}
+.low{color:green;font-weight:bold;}
+button{
+    padding:5px 10px;
+    background:#004e92;
+    color:white;
+    border:none;
+    border-radius:4px;
+}
+input{
+    padding:8px;
+    margin-bottom:15px;
+    width:250px;
+}
+</style>
+</head>
+<body>
+
+<h2>Complaint Management System</h2>
+
+<input type="text" id="searchInput" placeholder="Search by Area..." onkeyup="searchTable()">
+
+<table id="complaintTable">
+<tr>
+<th>ID</th>
+<th>Area</th>
+<th>Issue</th>
+<th>Priority</th>
+<th>Status</th>
+<th>Date</th>
+<th>Action</th>
+</tr>
+
+{% for c in complaints %}
+<tr>
+<td>{{ c.complaint_id }}</td>
+<td>{{ c.area }}</td>
+<td>{{ c.issue }}</td>
+<td class="{{ c.priority | lower }}">{{ c.priority }}</td>
+<td>{{ c.status }}</td>
+<td>{{ c.date }}</td>
+<td>
+    {% if c.status != "Resolved" %}
+    <a href="/update_status/{{ c.complaint_id }}">
+        <button>Resolve</button>
+    </a>
+    {% else %}
+    ✔
+    {% endif %}
+</td>
+</tr>
+{% endfor %}
+</table>
+
+<script>
+function searchTable() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let rows = document.querySelectorAll("#complaintTable tr");
+
+    rows.forEach((row, index) => {
+        if(index === 0) return;
+        let area = row.cells[1].textContent.toLowerCase();
+        row.style.display = area.includes(input) ? "" : "none";
+    });
+}
+</script>
+
+</body>
+</html>

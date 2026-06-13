@@ -1,0 +1,19 @@
+<h2>Complaint Priority Analytics</h2>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="priorityChart"></canvas>
+
+<script>
+const data = {{ data | tojson | safe }};
+
+new Chart(document.getElementById("priorityChart"), {
+    type: 'bar',
+    data: {
+        labels: Object.keys(data),
+        datasets: [{
+            label: "Complaint Count",
+            data: Object.values(data)
+        }]
+    }
+});
+</script>

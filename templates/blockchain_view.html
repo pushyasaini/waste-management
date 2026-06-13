@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Blockchain Ledger</title>
+<style>
+body{font-family:Arial;background:#f4f4f4;padding:30px;}
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+th, td{
+    padding:10px;
+    border:1px solid #ddd;
+}
+th{background:#004e92;color:white;}
+</style>
+</head>
+<body>
+
+<h2>Blockchain Ledger Records</h2>
+
+<table>
+<tr>
+    {% for key in records[0].keys() %}
+    <th>{{ key }}</th>
+    {% endfor %}
+</tr>
+
+{% for row in records %}
+<tr>
+    {% for value in row.values() %}
+    <td>{{ value }}</td>
+    {% endfor %}
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>

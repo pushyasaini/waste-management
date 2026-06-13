@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Bin Status</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .empty {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .half {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .full {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>🗑 Bin ID: {{ bin_id }}</h2>
+<h3>Select Status</h3>
+
+<form method="POST">
+
+    <button name="status" value="EMPTY" class="btn empty">🟢 Empty</button>
+
+    <button name="status" value="HALF" class="btn half">🟡 Half Full</button>
+
+    <button name="status" value="FULL" class="btn full">🔴 Full</button>
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4 text-primary">
+        🗑️ Admin QR Bin Management
+    </h2>
+
+    <!-- Filter Section -->
+    <div class="card shadow-sm p-3 mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" id="searchInput" class="form-control"
+                       placeholder="🔍 Search by Bin ID or Area...">
+            </div>
+
+            <div class="col-md-3">
+                <select id="areaFilter" class="form-select">
+                    <option value="">All Areas</option>
+                    <option value="Nizampet">Nizampet</option>
+                    <option value="Kukatpally">Kukatpally</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <select id="statusFilter" class="form-select">
+                    <option value="">All Status</option>
+                    <option value="Empty">Empty</option>
+                    <option value="Half">Half</option>
+                    <option value="Full">Full</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- QR Bin Table -->
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle" id="binTable">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Bin ID</th>
+                        <th>Area</th>
+                        <th>Status</th>
+                        <th>Assigned Vehicle</th>
+                        <th>Last Collected</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for bin in bins %}
+                    <tr>
+                        <td><strong>{{ bin.bin_id }}</strong></td>
+                        <td>{{ bin.area }}</td>
+
+                        <td>
+                            {% if bin.status == "Full" %}
+                                <span class="badge bg-danger">Full</span>
+                            {% elif bin.status == "Half" %}
+                                <span class="badge bg-warning text-dark">Half</span>
+                            {% else %}
+                                <span class="badge bg-success">Empty</span>
+                            {% endif %}
+                        </td>
+
+                        <td>{{ bin.assigned_vehicle }}</td>
+                        <td>{{ bin.last_collected }}</td>
+
+                        <td>
+                            <a href="/admin/generate_qr/{{ bin.bin_id }}"
+                               class="btn btn-sm btn-primary">
+                                Generate QR
+                            </a>
+
+                            <a href="/admin/scan_qr/{{ bin.bin_id }}"
+                               class="btn btn-sm btn-success">
+                                Scan
+                            </a>
+
+                            <a href="/admin/collect/{{ bin.bin_id }}"
+                               class="btn btn-sm btn-warning">
+                                Mark Collected
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- JavaScript Filter -->
+<script>
+document.getElementById("searchInput").addEventListener("keyup", filterTable);
+document.getElementById("areaFilter").addEventListener("change", filterTable);
+document.getElementById("statusFilter").addEventListener("change", filterTable);
+
+function filterTable() {
+    let search = document.getElementById("searchInput").value.toLowerCase();
+    let area = document.getElementById("areaFilter").value;
+    let status = document.getElementById("statusFilter").value;
+
+    let rows = document.querySelectorAll("#binTable tbody tr");
+
+    rows.forEach(row => {
+        let binId = row.cells[0].innerText.toLowerCase();
+        let binArea = row.cells[1].innerText;
+        let binStatus = row.cells[2].innerText;
+
+        let matchSearch = binId.includes(search);
+        let matchArea = area === "" || binArea === area;
+        let matchStatus = status === "" || binStatus === status;
+
+        if (matchSearch && matchArea && matchStatus) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
+</script>
+
+{% endblock %}

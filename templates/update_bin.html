@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-sm p-4">
+
+        <h3 class="text-primary mb-4">
+            🗑️ Update Bin Status
+        </h3>
+
+        <h5>Bin ID: <strong>{{ bin_id }}</strong></h5>
+
+        <form method="POST" action="/admin_update_bin/{{ bin_id }}">
+
+            <div class="mb-3">
+                <label class="form-label">Current Fill Percentage (%)</label>
+                <input type="number" name="fill_percent"
+                       class="form-control"
+                       min="0" max="100"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <small class="text-muted">
+                    🔹 75%+ → Needs Collection<br>
+                    🔹 90%+ → Overflow
+                </small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Update Bin
+            </button>
+
+            <a href="/admin/qr-bins" class="btn btn-secondary">
+                Back
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

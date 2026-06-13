@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan QR Code</title>
+
+    <!-- QR Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+            margin-top: 40px;
+        }
+
+        #reader {
+            width: 300px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📷 Scan Bin QR Code</h2>
+
+<div id="reader"></div>
+
+<p id="result"></p>
+
+<script>
+function onScanSuccess(decodedText) {
+
+    // If QR already contains full URL → open directly
+    if (decodedText.startsWith("http")) {
+        window.location.href = decodedText;
+    } else {
+        // If only bin_id → append route
+        window.location.href = "/public_report_bin/" + decodedText;
+    }
+}
+// Initialize scanner
+let html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader",
+    {
+        fps: 10,
+        qrbox: 250
+    }
+);
+
+// Start scanning
+html5QrcodeScanner.render(onScanSuccess);
+</script>
+
+<br>
+
+<!-- Back Button -->
+<a href="/citizen_dashboard">
+    <button class="back-btn">⬅ Back to Dashboard</button>
+</a>
+
+</body>
+</html>
