@@ -1,0 +1,22 @@
+<h2>Assign Vehicle for {{ bin_id }}</h2>
+
+<form action="/assign_vehicle/{{ bin_id }}" method="POST">
+
+<select name="vehicle">
+    <option>VEH_01</option>
+    <option>VEH_02</option>
+    <option>VEH_03</option>
+</select>
+
+<select name="driver">
+    <option>Ravi Kumar - 9000011111</option>
+    <option>Suresh Reddy - 9000022222</option>
+    <option>Mahesh Yadav - 9000033333</option>
+</select>
+
+<input type="text" name="gps_link" placeholder="Paste Driver Live Location Link" required>
+<br><br>
+
+<button type="submit">Assign</button>
+
+</form>

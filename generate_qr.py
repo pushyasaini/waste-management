@@ -18,7 +18,7 @@ for index, row in df.iterrows():
     bin_id = row["bin_id"]
 
     # 🔗 What QR will store
-    qr_data = f"http://192.168.1.7:5000/public_report_bin/{bin_id}"
+    qr_data = qr_data = "https://waste-management-kq9c.onrender.com/select_status/" + bin_id
     
     # Create QR
     qr = qrcode.make(qr_data)

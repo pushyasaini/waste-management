@@ -48,11 +48,13 @@ BIN_FILE = os.path.join(DATA_FOLDER, "qr_bins_master.csv")
 LOG_FILE = os.path.join(DATA_FOLDER, "collection_logs.csv")
 IMAGE_FOLDER = os.path.join(BASE_DIR, "images")
 
-def send_email_alert(bin_id, status, user):
+def send_email_alert(bin_id, status, name, priority):
     print("📧 Email Alert Sent!")
     print("Bin ID:", bin_id)
     print("Status:", status)
-    print("User:", user)
+    print("Name:", name)
+    print("Priority:", priority)
+    print()
 
 if not os.path.exists(COMPLAINT_FILE):
     df = pd.DataFrame(columns=[
@@ -83,24 +85,33 @@ def check_threshold(fill_percent):
 import smtplib
 from email.mime.text import MIMEText
 
-def send_email(bin_id):
+def send_email_alert(bin_id, status, name, priority):
 
-    sender = "pushyasaini58@gmail.com"
-    password = "Pushya@2002"
+    sender = "pushyasaini5@gmail.com"
+    password = "egyvzwllyrsckojt"
+    receiver = "pushyasaini58@gmail.com"
 
-    receiver = "sainipushya@gmail.com"
+    subject = f"🚨 Waste Alert - {bin_id}"
 
-    message = MIMEText(f"🚨 Bin {bin_id} is FULL / OVERFLOW!")
+    body = f"""
+Bin ID: {bin_id}
+Status: {status}
+Reported By: {name}
+Priority: {priority}
+"""
 
-    message["Subject"] = "Waste Alert"
-    message["From"] = sender
-    message["To"] = receiver
+    msg = MIMEText(body)
+    msg["Subject"] = subject
+    msg["From"] = sender
+    msg["To"] = receiver
 
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     server.login(sender, password)
-    server.send_message(message)
+    server.sendmail(sender, receiver, msg.as_string())
     server.quit()
+
+    print("✅ Real Email Sent!")
     
 # ==========================
 # HOME PAGE
@@ -352,7 +363,7 @@ def admin_dashboard():
     # ===============================
     return render_template(
     "admin_dashboard.html",
-
+      
     total_bins=total_bins,
     high_alerts=high_alerts,
     area_avg=area_avg,
@@ -531,11 +542,11 @@ def admin_scan_bin(bin_id):
 
 @app.route("/public_report_bin/<bin_id>", methods=["GET", "POST"])
 def public_report_bin(bin_id):
-
+    
     if request.method == "POST":
-
+        name = request.form.get("name")
+        priority = request.form.get("priority")
         status = request.form.get("status")
-        username = session.get("username", "guest")
         time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         # ✅ CREATE FOLDER IF NOT EXISTS
@@ -547,23 +558,52 @@ def public_report_bin(bin_id):
         if not os.path.exists(alert_file):
             with open(alert_file, "w", newline="") as f:
                 writer = csv.writer(f)
-                writer.writerow(["bin_id", "status", "user", "time"])
+                writer.writerow(["bin_id", "status", "name", "priority", "time"])
 
         # 💾 SAVE DATA
         with open(alert_file, "a", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow([bin_id, status, username, time_now])
+            writer.writerow([bin_id, status, name, priority, time_now])
 
         # 📧 EMAIL
-        send_email_alert(bin_id, status, username)
+        send_email_alert(bin_id, status, name)
 
         return render_template("report_success.html",
                                bin_id=bin_id,
                                status=status,
-                               username=username,
+                               username=name,
+                               priority=priority,
                                time=time_now)
 
     return render_template("select_status.html", bin_id=bin_id)
+
+@app.route("/select_status/<bin_id>")
+def select_status(bin_id):
+    return render_template("select_status.html", bin_id=bin_id)
+
+@app.route("/take_action/<bin_id>")
+def take_action(bin_id):
+    return render_template("assign_vehicle.html", bin_id=bin_id)
+
+@app.route("/assign_vehicle/<bin_id>", methods=["POST"])
+def assign_vehicle(bin_id):
+
+    vehicle = request.form.get("vehicle")
+    driver = request.form.get("driver")
+
+    print(f"{bin_id} assigned to {vehicle} - {driver}")
+    
+    
+    gps_link = request.form.get("gps_link")
+
+    return f"""
+<h3>✅ Vehicle Assigned</h3>
+<p>{vehicle} - {driver}</p>
+
+<a href="{gps_link}" target="_blank">
+📍 Track Live Location
+</a>
+"""
       
 @app.route("/admin_collect_bin/<bin_id>")
 def admin_collect_bin(bin_id):
