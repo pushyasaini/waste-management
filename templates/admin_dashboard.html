@@ -1,6 +1,13 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<title>Admin Dashboard</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
 body{
 background:#f4f6f9;
 font-family:Arial;
@@ -35,112 +42,191 @@ padding:25px;
 border-radius:10px;
 box-shadow:0 3px 6px rgba(0,0,0,0.1);
 }
+</style>
+</head>
 
-</style></head><body><!-- Sidebar --><div class="sidebar"><h4 class="text-center">GHMC Admin</h4><hr><a href="/admin_dashboard">Dashboard</a>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+<h4 class="text-center">GHMC Admin</h4>
+<hr>
+
+<a href="/admin_dashboard">Dashboard</a>
 <a href="/manage_complaints">Manage Complaints</a>
 <a href="/live_map">Live Waste Map</a>
 <a href="/admin/qr-bins">QR Bin System</a>
-<a href="/take_action/{{ row.bin_id }}">Take Action</a>
 <a href="/waste_forecast">Waste Forecast</a>
 <a href="/route_optimization">Route Optimization</a>
 <a href="/logout">Logout</a>
-
-</div><!-- Main Content --><div class="main"><h2>Smart Waste Management Control Dashboard</h2><br><!-- Dashboard Cards --><div class="row mb-4"><div class="col-md-3"><div class="card bg-primary text-white p-3"><h3>{{ total_bins }}</h3><p>Total Smart Bins</p></div></div><div class="col-md-3"><div class="card bg-danger text-white p-3"><h3>{{ high_alerts }}</h3><p>Overflow Alerts</p></div></div><div class="col-md-3"><div class="card bg-success text-white p-3"><h3>5</h3><p>Active Trucks</p></div></div><div class="col-md-3"><div class="card bg-warning text-dark p-3"><h3>4500 kg</h3><p>Waste Collected Today</p></div></div></div><!-- Charts --><div class="row"><div class="col-md-6"><div class="card p-3"><h5>Area Waste Fill Level</h5><canvas id="areaChart"></canvas>
-
-</div></div><div class="col-md-6"><div class="card p-3 mb-4">
-    <h5>🚨 Recent Alerts</h5>
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Bin ID</th>
-                <th>Status</th>
-                <th>Name</th>
-                <th>Priority</th>
-                <th>Time</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for row in alerts %}
-            <tr>
-                <td>{{ row.bin_id }}</td>
-                <td>{{ row.status }}</td>
-                <td>{{ row.name }}</td>
-
-                <!-- 🔥 PRIORITY COLOR -->
-                <td style="color:
-                {% if row.priority == 'IMMEDIATE' %} red
-                {% elif row.priority == 'TODAY' %} orange
-                {% else %} green
-                {% endif %}
-                ">
-                {{ row.priority }}
-                </td>
-
-                <td>{{ row.time }}</td>
-
-                <!-- 🔥 TAKE ACTION BUTTON -->
-                <td>
-                    <a href="/take_action/{{ row.bin_id }}" class="btn btn-sm btn-primary">
-                        Take Action
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 </div>
 
-</div></div></div><br><!-- Quick Access Section --><div class="row"><div class="col-md-4"><div class="card p-3 text-center"><h5>Live Waste Map</h5><p>Track trucks and smart bins</p><a href="/live_map" class="btn btn-primary">Open Map</a>
+<!-- Main Content -->
+<div class="main">
 
-</div></div><div class="col-md-4"><div class="card p-3 text-center"><h5>Complaint Management</h5><p>View and manage citizen complaints</p><a href="/manage_complaints" class="btn btn-danger">Open Complaints</a>
+<h2>Smart Waste Management Control Dashboard</h2>
+<br>
 
-</div></div><div class="col-md-4"><div class="card p-3 text-center"><h5>Waste Forecast</h5><p>AI prediction for waste generation</p><a href="/waste_forecast" class="btn btn-success">View Forecast</a>
+<!-- Cards -->
+<div class="row mb-4">
 
-</div></div></div></div><script>
+<div class="col-md-3">
+<div class="card bg-primary text-white p-3">
+<h3>{{ total_bins }}</h3>
+<p>Total Smart Bins</p>
+</div>
+</div>
 
-/* Area Waste Chart */
+<div class="col-md-3">
+<div class="card bg-danger text-white p-3">
+<h3>{{ high_alerts }}</h3>
+<p>Overflow Alerts</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card bg-success text-white p-3">
+<h3>5</h3>
+<p>Active Trucks</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card bg-warning text-dark p-3">
+<h3>4500 kg</h3>
+<p>Waste Collected Today</p>
+</div>
+</div>
+
+</div>
+
+<!-- Charts -->
+<div class="row mb-4">
+
+<div class="col-md-6">
+<div class="card p-3">
+<h5>Area Waste Fill Level</h5>
+<canvas id="areaChart"></canvas>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card p-3">
+<h5>Route Efficiency</h5>
+<canvas id="routeChart"></canvas>
+</div>
+</div>
+
+</div>
+
+<!-- 🚨 Alerts Table -->
+<div class="card p-3 mb-4">
+<h5>🚨 Recent Alerts</h5>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Bin ID</th>
+<th>Status</th>
+<th>Name</th>
+<th>Priority</th>
+<th>Time</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+{% for row in alerts %}
+<tr>
+<td>{{ row.bin_id }}</td>
+<td>{{ row.status }}</td>
+<td>{{ row.name }}</td>
+
+<td style="color:
+{% if row.priority == 'IMMEDIATE' %} red
+{% elif row.priority == 'TODAY' %} orange
+{% else %} green
+{% endif %}
+">
+{{ row.priority }}
+</td>
+
+<td>{{ row.time }}</td>
+
+<td>
+<a href="/take_action/{{ row.bin_id }}" class="btn btn-sm btn-primary">
+Take Action
+</a>
+</td>
+
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<!-- Quick Access -->
+<div class="row">
+
+<div class="col-md-4">
+<div class="card p-3 text-center">
+<h5>Live Waste Map</h5>
+<p>Track trucks and smart bins</p>
+<a href="/live_map" class="btn btn-primary">Open Map</a>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card p-3 text-center">
+<h5>Complaint Management</h5>
+<p>View complaints</p>
+<a href="/manage_complaints" class="btn btn-danger">Open</a>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card p-3 text-center">
+<h5>Waste Forecast</h5>
+<p>AI prediction</p>
+<a href="/waste_forecast" class="btn btn-success">View</a>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- Scripts -->
+<script>
 
 const areaData = {{ area_avg | tojson }};
-
 new Chart(document.getElementById("areaChart"),{
-
 type:"bar",
-
 data:{
 labels:Object.keys(areaData),
-
 datasets:[{
-label:"Average Fill Level (%)",
+label:"Fill %",
 data:Object.values(areaData),
 backgroundColor:"#007bff"
 }]
 }
-
 });
 
-
-/* Route Efficiency Chart */
-
 const routeData = {{ route_efficiency | tojson }};
-
 new Chart(document.getElementById("routeChart"),{
-
 type:"line",
-
 data:{
 labels:Object.keys(routeData),
-
 datasets:[{
-label:"Efficiency Score",
+label:"Efficiency",
 data:Object.values(routeData),
 borderColor:"#28a745",
 fill:false
 }]
 }
-
 });
 
-</script></body></html>
+</script>
+
+</body>
+</html>

@@ -512,7 +512,7 @@ def admin_generate_qr(bin_id):
     if session.get("role") != "admin":
         return redirect("/")
 
-    qr_url =f"http://192.168.1.7:5000/public_report_bin/{bin_id}"
+    qr_url =BASE_URL = "https://waste-management-kq9c.onrender.com"
     qr_path = os.path.join(QR_FOLDER, f"{bin_id}.png")
 
     qr = qrcode.make(qr_url)
@@ -818,4 +818,5 @@ print(app.url_map)
 # ---------------- RUN SERVER ---------------- #
 
 if __name__ == "__main__":
-    app.run(app.run(host="0.0.0.0", port=5000, debug=True))
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
