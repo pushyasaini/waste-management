@@ -577,11 +577,11 @@ def public_report_bin(bin_id):
 
     return render_template("select_status.html", bin_id=bin_id)
 
-@app.route("/select_status/<bin_id>")
+@app.route("/select_status/<bin_id>", methods=["GET", "POST"])
 def select_status(bin_id):
     return render_template("select_status.html", bin_id=bin_id)
 
-@app.route("/take_action/<bin_id>")
+@app.route("/take_action/<bin_id>", methods=["GET", "POST"])
 def take_action(bin_id):
     return render_template("assign_vehicle.html", bin_id=bin_id)
 
