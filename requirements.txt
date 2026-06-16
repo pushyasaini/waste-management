@@ -3,3 +3,4 @@ pandas
 gunicorn
 werkzeug
 qrcode[pil]
+sklearn
