@@ -47,27 +47,32 @@
 <body>
 
 <h2>🗑 Bin ID: {{ bin_id }}</h2>
-<h3>Select Status</h3>
 
 <form method="POST">
 
-    <button name="status" value="EMPTY" class="btn empty">🟢 Empty</button>
+    <!-- ✅ NAME -->
+    <input type="text" name="name" placeholder="Enter your name" required><br><br>
 
-    <button name="status" value="HALF" class="btn half">🟡 Half Full</button>
+    <!-- ✅ PRIORITY -->
+    <select name="priority" required>
+        <option value="">Select Priority</option>
+        <option value="IMMEDIATE">Immediate</option>
+        <option value="TODAY">Today</option>
+        <option value="TOMORROW">Tomorrow</option>
+    </select>
 
-    <button name="status" value="FULL" class="btn full">🔴 Full</button>
+    <br><br>
+
+    <h3>Select Status</h3>
+
+    <!-- ✅ SUBMIT BUTTONS -->
+    <button type="submit" name="status" value="EMPTY" class="btn empty">🟢 Empty</button>
+
+    <button type="submit" name="status" value="HALF" class="btn half">🟡 Half Full</button>
+
+    <button type="submit" name="status" value="FULL" class="btn full">🔴 Full</button>
 
 </form>
-
-<input type="text" name="name" placeholder="Enter your name" required><br><br>
-
-<select name="priority" required>
-    <option value="">Select Priority</option>
-    <option value="IMMEDIATE">Immediate</option>
-    <option value="TODAY">Today</option>
-    <option value="TOMORROW">Tomorrow</option>
-</select>
-<br><br>
 
 </body>
 </html>
