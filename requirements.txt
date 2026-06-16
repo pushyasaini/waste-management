@@ -4,3 +4,4 @@ gunicorn
 werkzeug
 qrcode[pil]
 scikit-learn
+reportlab
