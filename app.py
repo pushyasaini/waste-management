@@ -579,18 +579,25 @@ def public_report_bin(bin_id):
 
 @app.route("/select_status/<bin_id>", methods=["GET", "POST"])
 def select_status(bin_id):
+
     if request.method == "POST":
-        status = request.form.get("status")
-        name = request.form.get("name")
-        priority = request.form.get("priority")
+        try:
+            name = request.form.get("name")
+            status = request.form.get("status")
+            priority = request.form.get("priority")
 
-        print("Bin:", bin_id)
-        print("Status:", status)
-        print("Name:", name)
-        print("Priority:", priority)
+            print("DEBUG:", name, status, priority)
 
-        # ✅ Redirect to thank you page
-        return render_template("thank_you.html", bin_id=bin_id)
+            # Save alert
+            with open("data/alerts.csv", "a") as f:
+                f.write(f"{bin_id},{status},{name},{priority},{datetime.now()}\n")
+
+            return redirect("/thank_you")
+
+        except Exception as e:
+            print("ERROR:", e)
+            return "Something went wrong: " + str(e)
+
     return render_template("select_status.html", bin_id=bin_id)
 
 @app.route("/take_action/<bin_id>", methods=["GET", "POST"])

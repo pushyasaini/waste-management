@@ -14,6 +14,14 @@
             color: #333;
         }
 
+        input, select {
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
         .btn {
             padding: 15px 30px;
             margin: 10px;
@@ -51,7 +59,9 @@
 <form method="POST">
 
     <!-- ✅ NAME -->
-    <input type="text" name="name" placeholder="Enter your name" required><br><br>
+    <input type="text" name="name" placeholder="Enter your name" required>
+
+    <br>
 
     <!-- ✅ PRIORITY -->
     <select name="priority" required>
@@ -61,18 +71,27 @@
         <option value="TOMORROW">Tomorrow</option>
     </select>
 
-    <br><br>
+    <br>
 
     <h3>Select Status</h3>
 
-    <!-- ✅ SUBMIT BUTTONS -->
-    <button type="submit" name="status" value="EMPTY" class="btn empty">🟢 Empty</button>
+    <!-- ✅ IMPORTANT: hidden field to store status -->
+    <input type="hidden" name="status" id="statusInput">
 
-    <button type="submit" name="status" value="HALF" class="btn half">🟡 Half Full</button>
+    <!-- ✅ BUTTONS -->
+    <button type="submit" class="btn empty" onclick="setStatus('EMPTY')">🟢 Empty</button>
 
-    <button type="submit" name="status" value="FULL" class="btn full">🔴 Full</button>
+    <button type="submit" class="btn half" onclick="setStatus('HALF')">🟡 Half Full</button>
+
+    <button type="submit" class="btn full" onclick="setStatus('FULL')">🔴 Full</button>
 
 </form>
+
+<script>
+function setStatus(value) {
+    document.getElementById("statusInput").value = value;
+}
+</script>
 
 </body>
 </html>
