@@ -602,9 +602,12 @@ def public_report_bin(bin_id):
                 writer.writerow([bin_id, status, name, priority, time_now])
 
             # =========================
-            # SEND EMAIL
+            # SEND EMAIL (SAFE FIX)
             # =========================
-            send_email_alert(bin_id, status, name, priority)
+            try:
+                send_email_alert(bin_id, status, name, priority)
+            except Exception as e:
+                print("EMAIL ERROR:", e)
 
             # =========================
             # SUCCESS PAGE
