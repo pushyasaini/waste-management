@@ -604,7 +604,7 @@ def public_report_bin(bin_id):
             # =========================
             # SEND EMAIL
             # =========================
-            send_email_alert(bin_id, status, name)
+            send_email_alert(bin_id, status, name, priority)
 
             # =========================
             # SUCCESS PAGE
