@@ -48,14 +48,6 @@ BIN_FILE = os.path.join(DATA_FOLDER, "qr_bins_master.csv")
 LOG_FILE = os.path.join(DATA_FOLDER, "collection_logs.csv")
 IMAGE_FOLDER = os.path.join(BASE_DIR, "images")
 
-def send_email_alert(bin_id, status, name, priority):
-    print("📧 Email Alert Sent!")
-    print("Bin ID:", bin_id)
-    print("Status:", status)
-    print("Name:", name)
-    print("Priority:", priority)
-    print()
-
 if not os.path.exists(COMPLAINT_FILE):
     df = pd.DataFrame(columns=[
         "complaint_id",
@@ -595,14 +587,14 @@ def public_report_bin(bin_id):
                     writer.writerow(["bin_id", "status", "name", "priority", "time"])
 
             # =========================
-            # SAVE ALERT DATA
+            # SAVE DATA
             # =========================
             with open(alert_file, "a", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([bin_id, status, name, priority, time_now])
 
             # =========================
-            # SEND EMAIL (SAFE FIX)
+            # SEND EMAIL (SAFE)
             # =========================
             try:
                 send_email_alert(bin_id, status, name, priority)
@@ -623,7 +615,7 @@ def public_report_bin(bin_id):
 
         except Exception as e:
             print("ERROR:", e)
-            return "Something went wrong: " + str(e)
+            return "ERROR:" + str(e)
 
     # =========================
     # SHOW FORM PAGE
