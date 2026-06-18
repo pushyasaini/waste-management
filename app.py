@@ -512,7 +512,7 @@ def admin_generate_qr(bin_id):
     if session.get("role") != "admin":
         return redirect("/")
 
-    qr_url =BASE_URL = "https://waste-management-kq9c.onrender.com"
+    qr_url =BASE_URL = f"https://waste-management-kq9c.onrender.com/public_report_bin/{bin_id}"
     qr_path = os.path.join(QR_FOLDER, f"{bin_id}.png")
 
     qr = qrcode.make(qr_url)
