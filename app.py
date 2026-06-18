@@ -600,6 +600,10 @@ def select_status(bin_id):
 
     return render_template("select_status.html", bin_id=bin_id)
 
+@app.route("/thank_you")
+def thank_you():
+    return render_template("thank_you.html")
+
 @app.route("/take_action/<bin_id>", methods=["GET", "POST"])
 def take_action(bin_id):
     return render_template("assign_vehicle.html", bin_id=bin_id)
