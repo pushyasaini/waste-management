@@ -564,65 +564,55 @@ def admin_scan_bin(bin_id):
 # Update Bin Fill %
 # -----------------------------
 
-@app.route("/public_report_bin/<bin_id>", methods=["GET", "POST"])
-def public_report_bin(bin_id):
-    
-    if request.method == "POST":
-        name = request.form.get("name")
-        priority = request.form.get("priority")
-        status = request.form.get("status")
-        time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # ✅ CREATE FOLDER IF NOT EXISTS
-        os.makedirs("data", exist_ok=True)
-
-        alert_file = os.path.join("data", "alerts.csv")
-
-        # ✅ CREATE FILE IF NOT EXISTS
-        if not os.path.exists(alert_file):
-            with open(alert_file, "w", newline="") as f:
-                writer = csv.writer(f)
-                writer.writerow(["bin_id", "status", "name", "priority", "time"])
-
-        # 💾 SAVE DATA
-        with open(alert_file, "a", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow([bin_id, status, name, priority, time_now])
-
-        # 📧 EMAIL
-        send_email_alert(bin_id, status, name)
-
-        return render_template("report_success.html",
-                               bin_id=bin_id,
-                               status=status,
-                               username=name,
-                               priority=priority,
-                               time=time_now)
-
-    return render_template("select_status.html", bin_id=bin_id)
-
 @app.route("/select_status/<bin_id>", methods=["GET", "POST"])
 def select_status(bin_id):
 
     if request.method == "POST":
         try:
+            # ✅ Get form data safely
             name = request.form.get("name")
             status = request.form.get("status")
             priority = request.form.get("priority")
-            time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            print("DEBUG:", name, status, priority)
+            # ✅ Time
+            time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            # Save alert
-            with open("data/alerts.csv", "a") as f:
-                f.write(f"{bin_id},{status},{name},{priority},{datetime.now()}\n")
+            print("DEBUG:", bin_id, name, status, priority)
 
-            return redirect("/thank_you")
+            # ✅ Create data folder
+            os.makedirs("data", exist_ok=True)
+
+            alert_file = os.path.join("data", "alerts.csv")
+
+            # ✅ Create CSV file with header (if not exists)
+            if not os.path.exists(alert_file):
+                with open(alert_file, "w", newline="") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(["bin_id", "status", "name", "priority", "time"])
+
+            # ✅ Save alert data
+            with open(alert_file, "a", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([bin_id, status, name, priority, time_now])
+
+            # ✅ Send email alert
+            send_email_alert(bin_id, status, priority, name)
+
+            # ✅ Show success page
+            return render_template(
+                "report_success.html",
+                bin_id=bin_id,
+                status=status,
+                username=name,
+                priority=priority,
+                time=time_now
+            )
 
         except Exception as e:
             print("ERROR:", e)
             return "Something went wrong: " + str(e)
 
+    # ✅ GET request → show form
     return render_template("select_status.html", bin_id=bin_id)
 
 @app.route("/thank_you")
