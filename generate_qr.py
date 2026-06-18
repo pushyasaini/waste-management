@@ -23,7 +23,7 @@ for index, row in df.iterrows():
     bin_id = row["bin_id"]
 
     # ✅ Correct QR URL
-    qr_data = f"{BASE_URL}/select_status/{bin_id}"
+    qr_data = f"{BASE_URL}/public_report_bin/{bin_id}"
 
     # Create QR
     qr = qrcode.make(qr_data)
