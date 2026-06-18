@@ -564,41 +564,51 @@ def admin_scan_bin(bin_id):
 # Update Bin Fill %
 # -----------------------------
 
-@app.route("/select_status/<bin_id>", methods=["GET", "POST"])
-def select_status(bin_id):
+@app.route("/public_report_bin/<bin_id>", methods=["GET", "POST"])
+def public_report_bin(bin_id):
 
     if request.method == "POST":
         try:
-            # ✅ Get form data safely
+            # =========================
+            # GET FORM DATA
+            # =========================
             name = request.form.get("name")
-            status = request.form.get("status")
             priority = request.form.get("priority")
-
-            # ✅ Time
+            status = request.form.get("status")
             time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            print("DEBUG:", bin_id, name, status, priority)
+            print("DEBUG:", name, priority, status)
 
-            # ✅ Create data folder
+            # =========================
+            # CREATE DATA FOLDER
+            # =========================
             os.makedirs("data", exist_ok=True)
 
             alert_file = os.path.join("data", "alerts.csv")
 
-            # ✅ Create CSV file with header (if not exists)
+            # =========================
+            # CREATE FILE IF NOT EXISTS
+            # =========================
             if not os.path.exists(alert_file):
                 with open(alert_file, "w", newline="") as f:
                     writer = csv.writer(f)
                     writer.writerow(["bin_id", "status", "name", "priority", "time"])
 
-            # ✅ Save alert data
+            # =========================
+            # SAVE ALERT DATA
+            # =========================
             with open(alert_file, "a", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([bin_id, status, name, priority, time_now])
 
-            # ✅ Send email alert
-            send_email_alert(bin_id, status, priority, name)
+            # =========================
+            # SEND EMAIL
+            # =========================
+            send_email_alert(bin_id, status, name)
 
-            # ✅ Show success page
+            # =========================
+            # SUCCESS PAGE
+            # =========================
             return render_template(
                 "report_success.html",
                 bin_id=bin_id,
@@ -612,7 +622,9 @@ def select_status(bin_id):
             print("ERROR:", e)
             return "Something went wrong: " + str(e)
 
-    # ✅ GET request → show form
+    # =========================
+    # SHOW FORM PAGE
+    # =========================
     return render_template("select_status.html", bin_id=bin_id)
 
 @app.route("/thank_you")

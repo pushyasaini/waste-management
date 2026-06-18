@@ -16,7 +16,7 @@ output_folder = os.path.join(BASE_DIR, "static", "qr_codes")
 os.makedirs(output_folder, exist_ok=True)
 
 # 🌐 Your IP address (IMPORTANT)
-BASE_URL = f"https://waste-management-kq9c.onrender.com/select_status/{{bin_id}}"
+BASE_URL = f"https://waste-management-kq9c.onrender.com/public_report_bin/{{bin_id}}"
 # 🔁 Generate QR codes
 for index, row in df.iterrows():
 
