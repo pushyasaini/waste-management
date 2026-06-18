@@ -356,28 +356,52 @@ def admin_dashboard():
 
     resolved = len(complaint_df[complaint_df["status"] == "Resolved"])
     pending = len(complaint_df[complaint_df["status"] == "Pending"])
+
     complaints = complaint_df.to_dict(orient="records")
+
+    # ===============================
+    # ✅ QR ALERT DATA (NEW FIX)
+    # ===============================
+    alerts = []
+
+    try:
+        with open("data/alerts.csv", "r") as file:
+            reader = csv.reader(file)
+            for row in reader:
+                if len(row) == 5:
+                    alerts.append({
+                        "bin_id": row[0],
+                        "status": row[1],
+                        "name": row[2],
+                        "priority": row[3],
+                        "time": row[4]
+                    })
+    except:
+        pass
 
     # ===============================
     # Render Dashboard
     # ===============================
     return render_template(
-    "admin_dashboard.html",
-      
-    total_bins=total_bins,
-    high_alerts=high_alerts,
-    area_avg=area_avg,
-    route_efficiency=route_efficiency,
+        "admin_dashboard.html",
 
-    total=total_complaints,
-    high=high,
-    medium=medium,
-    low=low,
-    resolved=resolved,
-    pending=pending,
+        total_bins=total_bins,
+        high_alerts=high_alerts,
+        area_avg=area_avg,
+        route_efficiency=route_efficiency,
 
-    complaints=complaints
-)
+        total=total_complaints,
+        high=high,
+        medium=medium,
+        low=low,
+        resolved=resolved,
+        pending=pending,
+
+        complaints=complaints,
+
+        # ✅ SEND ALERTS TO FRONTEND
+        alerts=alerts
+    )
        
 @app.route("/complaint_status")
 def complaint_status():
@@ -585,6 +609,7 @@ def select_status(bin_id):
             name = request.form.get("name")
             status = request.form.get("status")
             priority = request.form.get("priority")
+            time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             print("DEBUG:", name, status, priority)
 
