@@ -1,1 +1,7 @@
-bin_id,status,user,priority,time
+bin_id,status,user,time
+BIN_KP_004,FULL,harsha,2026-03-26 13:19:42
+BIN_KP_002,FULL,guest,2026-03-26 13:20:23
+BIN_KP_002,FULL,guest,2026-03-26 13:21:51
+BIN_KP_002,FULL,harsha,2026-03-26 13:23:24
+BIN_KP_003,FULL,guest,2026-03-26 13:26:49
+BIN_NZ_001,FULL,guest,2026-03-26 13:27:29
